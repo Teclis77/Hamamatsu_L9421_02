@@ -1,0 +1,88 @@
+#################################################
+# ###                                       ### #
+# ### StreamDevice Protocol for             ### #
+# ### X-ray Source Hamamatsu - L9421_02     ### #
+# ###                                       ### #
+# ### author: D. Hampai		            ### #
+# ###                                       ### #
+# ### Ref 1.1; 2025-05-26                   ### #
+#################################################
+
+###################
+# ### Globals ### #
+###################
+
+#Terminator = CR LF;
+#Terminator = LF;
+Terminator=CR;
+ReplyTimeout=1000;
+ReadTimeout=1000;
+#
+#	Protocols
+#
+##
+#	Discard Extra Inputs
+##
+ExtraInput = Ignore;
+#
+getModel{
+	out "TYP";
+	in "TYP %s";
+}
+getStatus{
+	out "SAR";
+#	in "SAR %(\$1.A) %(\$1.B) %(\$1.C) 0 0 0 0"
+	in "SAR %(\$1)d %(\$2)d %(\$3)d 0 0 0 0";
+}
+getPreheating{
+	out "SPH";
+	in "SPH %(\$1)d";
+}
+getWarmUp{
+        out "SWE";
+        in "SWE %(\$1)d";
+}
+checkWarmUp{
+        out "SWS";
+        in "SWS %(\$1)d %(\$2)d";
+}
+setWarmUp{
+	out "WUP";
+	in "WUP %d";
+}
+getBattery{
+	out "SBT";
+	in "SBT %(\$1)d";
+}
+getVoltage{
+        out "SHV";
+        in "SHV %d";
+}
+getCurrent{
+        out "SCU";
+        in "SCU %d";
+}
+setVoltage{
+        out "HIV %d";
+        in "HIV %d";
+}
+setCurrent{
+        out "CUR %d";
+        in "CUR %d";
+}
+#setXon{
+#	out "XON";
+#}
+#setXoff{
+#	out "XOF";
+#}
+setHV{
+	out "X%(\$1){OF|ON}";
+}
+setReset{
+	out "RST";
+}
+getHardware{
+	out "SER";
+	in "SER %d";	
+}

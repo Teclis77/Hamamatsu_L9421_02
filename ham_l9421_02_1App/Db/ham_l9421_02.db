@@ -1,0 +1,219 @@
+###########################################################
+# ###                                                 ### #
+# ### EPICS Database for                              ### #
+# ###   X-ray Source Hamamatsu - L9421_02             ### #
+# ###                                                 ### #
+# ### author: D.Hampai		                      ### #
+# ###                                                 ### #
+# ### Ref: 1.1; 2025-05-26                            ### #
+# ###                                                 ### #
+# ###         port    Asyn Interface                  ### #
+# ###         ADD     device Address                  ### #
+###########################################################
+
+record(stringin, "$(XSOURCE):model") {
+	field(DESC, "Device Version")
+	field(SCAN, "Passive")
+	field(DTYP, "stream")
+	field(INP, "@ham_l9421_02.proto getModel() $(ASYNPORT)")
+	field(PINI, "YES")
+}
+record(bi, "$(XSOURCE):getstatus") {
+	field(DESC, "Status X-ray Source")
+        field(SCAN, "1 second")
+        field(DTYP, "stream")
+        field(INP, "@ham_l9421_02.proto getStatus($(XSOURCE)_status,$(XSOURCE)_hv,$(XSOURCE)_cu) $(ASYNPORT)")
+        field(PINI, "YES")
+}
+record(bi, "$(XSOURCE):getpreheating") {
+        field(DESC, "Status Pre-Heating")
+        field(SCAN, "Passive")
+        field(DTYP, "stream")
+        field(INP, "@ham_l9421_02.proto getPreheating($(XSOURCE)_preheating) $(ASYNPORT)")
+        field(PINI, "YES")
+}
+record(bi, "$(XSOURCE):getwarmup") {
+        field(DESC, "Status Warm-Up")
+        field(SCAN, "Passive")
+        field(DTYP, "stream")
+        field(INP, "@ham_l9421_02.proto getWarmUp($(XSOURCE)_warmup) $(ASYNPORT)")
+        field(PINI, "YES")
+}
+record(bi, "$(XSOURCE):getbattery") {
+        field(DESC, "Status Battery")
+        field(SCAN, "Passive")
+        field(DTYP, "stream")
+        field(INP, "@ham_l9421_02.proto getBattery($(XSOURCE)_battery) $(ASYNPORT)")
+        field(PINI, "YES")
+}
+record(ai, "$(XSOURCE):getvoltage") {
+        field(DESC, "Get Voltage [kV]")
+	field(EGU, "kV")
+        field(SCAN, "Passive")
+        field(DTYP, "stream")
+        field(INP, "@ham_l9421_02.proto getVoltage() $(ASYNPORT)")
+        field(PINI, "NO")
+}
+record(ai, "$(XSOURCE):getcurrent") {
+        field(DESC, "Get Current [uA]")
+	field(EGU, "uA")
+        field(SCAN, "Passive")
+        field(DTYP, "stream")
+        field(INP, "@ham_l9421_02.proto getCurrent() $(ASYNPORT)")
+        field(PINI, "NO")
+}
+record(bi, "$(XSOURCE):checkwarmup") { 
+	field(DESC, "Check Warm-Up") 
+	field(SCAN, "Passive") 
+	field(DTYP, "stream") 
+        field(INP, "@ham_l9421_02.proto checkWarmUp($(XSOURCE)_pattern_a,$(XSOURCE)_pattern_b) $(ASYNPORT)") 
+}
+record(ai, "$(XSOURCE):startwarmup") { 
+	field(DESC, "Start Warm-Up") 
+	field(SCAN, "Passive") 
+	field(DTYP, "stream") 
+        field(INP, "@ham_l9421_02.proto setWarmUp() $(ASYNPORT)")
+}
+record(ao, "$(XSOURCE):setvoltage") {
+        field(DESC, "Set Voltage [kV]")
+	field(EGU, "kV")
+        field(SCAN, "Passive")
+        field(DTYP, "stream")
+        field(OUT, "@ham_l9421_02.proto setVoltage() $(ASYNPORT)")
+        field(PINI, "YES")
+	field(VAL, "20")
+	field(FLNK, "$(XSOURCE):getvoltage")
+}
+record(ao, "$(XSOURCE):setcurrent") {
+        field(DESC, "Set Curren [uA]")
+	field(EGU, "uA")
+        field(SCAN, "Passive")
+        field(DTYP, "stream")
+        field(OUT, "@ham_l9421_02.proto setCurrent() $(ASYNPORT)")
+        field(PINI, "YES")
+	field(VAL, "20")
+	field(FLNK, "$(XSOURCE):getcurrent")
+}
+record(bi, "$(XSOURCE):reset") {
+        field(DESC, "Reset if Status is 4")
+        field(SCAN, "Passive")
+        field(DTYP, "stream")
+        field(INP, "@ham_l9421_02.proto setReset() $(ASYNPORT)")
+        field(PINI, "NO")
+}
+record(ao, "$(XSOURCE):gethardware") {
+	field (DESC, "Get Hardware Status")
+        field(SCAN, "Passive")
+        field(DTYP, "stream")
+        field(OUT, "@ham_l9421_02.proto getHardware() $(ASYNPORT)")
+	field(PINI, "YES")
+}
+#
+#	buttons
+#
+record(bo, "$(XSOURCE):showvoltage") {
+	field(DESC, "Show Voltage")
+	field(FLNK, "$(XSOURCE):getvoltage")
+}
+record(bo, "$(XSOURCE):showcurrent") {
+        field(DESC, "Show Current")
+        field(FLNK, "$(XSOURCE):getcurrent")
+}
+record(bo, "$(XSOURCE):showwarmup") {
+        field(DESC, "Warm-Up Check")
+        field(FLNK, "$(XSOURCE):checkwarmup")
+}
+record(bo, "$(XSOURCE):startingwarmup") { 
+	field(DESC, "Starting Warm-Up") 
+	field(FLNK, "$(XSOURCE):startwarmup")
+}
+record(bo, "$(XSOURCE):checkhardware") {
+        field(DESC, "Check the Hardware")
+        field(FLNK, "$(XSOURCE):gethardware")
+}
+
+#
+#	XON / XOFF
+#
+record(ao, "$(XSOURCE):xoff") {
+        field(DESC, "X-ray Off")
+#        field(DTYP, "stream")
+#        field(OUT, "@ham_l9421_02.proto getCurrent() $(ASYNPORT)")
+        field(OUT, "0")
+}
+record(ao, "$(XSOURCE):xon") {
+        field(DESC, "X-ray On")
+#        field(DTYP, "stream")
+#        field(OUT, "@ham_l9421_02.proto getCurrent() $(ASYNPORT)")
+        field(OUT, "1")
+}
+
+record(bo, "$(XSOURCE):switch_onoff") {
+	field(DESC, "Select On/Off")
+	field(VAL, "0")  # Initial state (0 or 1)
+	field(ZNAM, "0")  # Label for state 0
+	field(ONAM, "1")  # Label for state 1	
+	field(FLNK, "$(XSOURCE):switch_hv PP")
+#	field(PINI, "YES")
+}
+record(stringin,"$(XSOURCE):switch_hv" ) {
+        field(DTYP, "stream")
+        field(INP, "@ham_l9421_02.proto setHV($(XSOURCE):switch_onoff) $(ASYNPORT)")	
+}
+#record(calcout, "$(XSOURCE):trigger_off") {
+#	field(SCAN, "I/O Intr")
+#	field(INPA, "$(XSOURCE):switch_onoff CP")      # Monitor SWITCH
+#	field(CALC, "A==0 ? 1 : 0")   # Output 1 if SWITCH=0, else 0
+#	field(OUT, "$(XSOURCE):xoff.PROC PP") # Trigger RECORD_A when CALC=1
+#	field(OOPT, "Transition To Non-zero") # Only trigger when CALC becomes 1
+#}
+#record(calcout, "$(XSOURCE):trigger_on") {
+#        field(SCAN, "I/O Intr")
+#        field(INPA, "$(XSOURCE):switch_onoff CP")      # Monitor SWITCH
+#        field(CALC, "A==1 ? 1 : 0")   # Output 1 if SWITCH=1, else 0
+#        field(OUT, "$(XSOURCE):xon.PROC PP") # Trigger RECORD_A when CALC=1
+#        field(OOPT, "Transition To Non-zero") # Only trigger when CALC becomes 1
+#}
+
+
+
+
+
+
+#
+#	variables
+#
+record(ai, "$(XSOURCE)_status") {
+	field(DESC, "Show Status X-ray Source")
+	field(SCAN, "Passive")	
+}
+record(ai, "$(XSOURCE)_hv") {
+        field(DESC, "Show Tension (kV)")
+	field(EGU, "kV")
+        field(SCAN, "Passive")
+}
+record(ai, "$(XSOURCE)_cu") {
+        field(DESC, "Show Current (uA)")
+	field(EGU, "uA")
+        field(SCAN, "Passive")
+}
+record(ai, "$(XSOURCE)_preheating") {
+        field(DESC, "Show Status Preheating")
+        field(SCAN, "Passive")
+}
+record(ai, "$(XSOURCE)_warmup") { 
+	field(DESC, "Show Status Warm-Up") 
+	field(SCAN, "Passive")
+}
+record(ai, "$(XSOURCE)_battery") {
+        field(DESC, "Show Battry Status")
+        field(SCAN, "Passive")
+}
+record(ai, "$(XSOURCE)_pattern_a") {
+        field(DESC, "Warm-Up: Pattern A")
+        field(SCAN, "Passive")
+}
+record(ai, "$(XSOURCE)_pattern_b") {
+        field(DESC, "Warm-Up: Pattern B")
+        field(SCAN, "Passive")
+}
