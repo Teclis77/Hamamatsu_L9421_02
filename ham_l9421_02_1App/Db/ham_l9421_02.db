@@ -94,18 +94,18 @@ record(ao, "$(XSOURCE):setcurrent") {
 	field(VAL, "20")
 	field(FLNK, "$(XSOURCE):getcurrent")
 }
-record(bi, "$(XSOURCE):reset") {
+record(bo, "$(XSOURCE):reset") {
         field(DESC, "Reset if Status is 4")
         field(SCAN, "Passive")
         field(DTYP, "stream")
-        field(INP, "@ham_l9421_02.proto setReset() $(ASYNPORT)")
+        field(OUT, "@ham_l9421_02.proto setReset() $(ASYNPORT)")
         field(PINI, "NO")
 }
-record(ao, "$(XSOURCE):gethardware") {
+record(ai, "$(XSOURCE):gethardware") {
 	field (DESC, "Get Hardware Status")
         field(SCAN, "Passive")
         field(DTYP, "stream")
-        field(OUT, "@ham_l9421_02.proto getHardware() $(ASYNPORT)")
+        field(INP, "@ham_l9421_02.proto getHardware() $(ASYNPORT)")
 	field(PINI, "YES")
 }
 #
