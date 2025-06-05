@@ -22,28 +22,28 @@ record(bi, "$(XSOURCE):getstatus") {
 	field(DESC, "Status X-ray Source")
         field(SCAN, "1 second")
         field(DTYP, "stream")
-        field(INP, "@ham_l9421_02.proto getStatus($(XSOURCE)_status,$(XSOURCE)_hv,$(XSOURCE)_cu) $(ASYNPORT)")
+        field(INP, "@ham_l9421_02.proto getStatus($(XSOURCE):sh_status,$(XSOURCE):sh_hv,$(XSOURCE):sh_cu) $(ASYNPORT)")
         field(PINI, "YES")
 }
 record(bi, "$(XSOURCE):getpreheating") {
         field(DESC, "Status Pre-Heating")
         field(SCAN, "Passive")
         field(DTYP, "stream")
-        field(INP, "@ham_l9421_02.proto getPreheating($(XSOURCE)_preheating) $(ASYNPORT)")
+        field(INP, "@ham_l9421_02.proto getPreheating($(XSOURCE):sh_preheating) $(ASYNPORT)")
         field(PINI, "YES")
 }
 record(bi, "$(XSOURCE):getwarmup") {
         field(DESC, "Status Warm-Up")
         field(SCAN, "Passive")
         field(DTYP, "stream")
-        field(INP, "@ham_l9421_02.proto getWarmUp($(XSOURCE)_warmup) $(ASYNPORT)")
+        field(INP, "@ham_l9421_02.proto getWarmUp($(XSOURCE):sh_warmup) $(ASYNPORT)")
         field(PINI, "YES")
 }
 record(bi, "$(XSOURCE):getbattery") {
         field(DESC, "Status Battery")
         field(SCAN, "Passive")
         field(DTYP, "stream")
-        field(INP, "@ham_l9421_02.proto getBattery($(XSOURCE)_battery) $(ASYNPORT)")
+        field(INP, "@ham_l9421_02.proto getBattery($(XSOURCE):sh_battery) $(ASYNPORT)")
         field(PINI, "YES")
 }
 record(ai, "$(XSOURCE):getvoltage") {
@@ -66,7 +66,7 @@ record(bi, "$(XSOURCE):checkwarmup") {
 	field(DESC, "Check Warm-Up") 
 	field(SCAN, "Passive") 
 	field(DTYP, "stream") 
-        field(INP, "@ham_l9421_02.proto checkWarmUp($(XSOURCE)_pattern_a,$(XSOURCE)_pattern_b) $(ASYNPORT)") 
+        field(INP, "@ham_l9421_02.proto checkWarmUp($(XSOURCE):sh_pattern_a,$(XSOURCE):sh_pattern_b) $(ASYNPORT)") 
 }
 record(ai, "$(XSOURCE):startwarmup") { 
 	field(DESC, "Start Warm-Up") 
@@ -183,37 +183,37 @@ record(stringin,"$(XSOURCE):switch_hv" ) {
 #
 #	variables
 #
-record(ai, "$(XSOURCE)_status") {
+record(ai, "$(XSOURCE):sh_status") {
 	field(DESC, "Show Status X-ray Source")
 	field(SCAN, "Passive")	
 }
-record(ai, "$(XSOURCE)_hv") {
+record(ai, "$(XSOURCE):sh_hv") {
         field(DESC, "Show Tension (kV)")
 	field(EGU, "kV")
         field(SCAN, "Passive")
 }
-record(ai, "$(XSOURCE)_cu") {
+record(ai, "$(XSOURCE):sh_cu") {
         field(DESC, "Show Current (uA)")
 	field(EGU, "uA")
         field(SCAN, "Passive")
 }
-record(ai, "$(XSOURCE)_preheating") {
+record(ai, "$(XSOURCE):sh_preheating") {
         field(DESC, "Show Status Preheating")
         field(SCAN, "Passive")
 }
-record(ai, "$(XSOURCE)_warmup") { 
+record(ai, "$(XSOURCE):sh_warmup") { 
 	field(DESC, "Show Status Warm-Up") 
 	field(SCAN, "Passive")
 }
-record(ai, "$(XSOURCE)_battery") {
+record(ai, "$(XSOURCE):sh_battery") {
         field(DESC, "Show Battry Status")
         field(SCAN, "Passive")
 }
-record(ai, "$(XSOURCE)_pattern_a") {
+record(ai, "$(XSOURCE):sh_pattern_a") {
         field(DESC, "Warm-Up: Pattern A")
         field(SCAN, "Passive")
 }
-record(ai, "$(XSOURCE)_pattern_b") {
+record(ai, "$(XSOURCE):sh_pattern_b") {
         field(DESC, "Warm-Up: Pattern B")
         field(SCAN, "Passive")
 }
